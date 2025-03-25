@@ -44,7 +44,7 @@
   #include "./espconnect_webpage.h"
 #endif
 
-#ifdef ESPCONNECT_NO_LOGGING
+#ifndef ESPCONNECT_LOGGING
   #define LOGD(tag, format, ...)
   #define LOGI(tag, format, ...)
   #define LOGW(tag, format, ...)

@@ -30,6 +30,7 @@ He is making great Arduino libraries.
   - [Ethernet Support](#ethernet-support)
   - [Logo](#logo)
   - [mDNS](#mdns)
+  - [Compile Flags](#compile-flags)
 
 ## Changes
 
@@ -42,7 +43,7 @@ He is making great Arduino libraries.
 - **Flexible Configuration:** ESPConnect can either control the configuration persistence for you or let you do it
 - **mDNS / DNS Support**
 - **Ethernet support**
-- **Ready for Arduino 3 (ESP-IDF 5.1)**
+- **Ready for Arduino 3 (ESP-IDF >= 5.1)**
 - **ESP8266 support** (except for Ethernet)
 - **Supports Static IP configuration**
 
@@ -57,7 +58,7 @@ He is making great Arduino libraries.
 2 flavors of `begin()` methods:
 
 1. `espConnect.begin("hostname", "ssid", "password")` / `espConnect.begin("hostname", "ssid")`
-2. `espConnect.begin("hostname", "ssid", "password", Mycila::ESPConnect::Config)` where config is `{.wifiSSID = ..., .wifiPassword = ..., .apMode = ...}`
+2. `espConnect.begin("ssid", "password", Mycila::ESPConnect::Config)` where config is `{.hostname = ..., .wifiSSID = ..., .wifiPassword = ..., .apMode = ...}`
 
 The first flavors will automatically handle the persistance of user choices and reload them at startup.
 
@@ -146,12 +147,13 @@ espConnect.setIPConfig(ipConfig);
 
   // load config from external system
   Mycila::ESPConnect::Config config = {
+    .hostname = "arduino",
     .wifiSSID = ...,
     .wifiPassword = ...,
     .apMode = ...
   };
 
-  espConnect.begin("arduino", "Captive Portal SSID", "", config);
+  espConnect.begin("Captive Portal SSID", "", config);
 ```
 
 ### ESP8266 Specifics
@@ -241,3 +243,11 @@ If not provided, the logo won't appear in the Captive Portal.
 
 mDNS takes quite a lot of space in flash (about 25KB).
 You can disable it by setting `-D ESPCONNECT_NO_MDNS`.
+
+### Compile Flags
+
+- `-D ESPCONNECT_NO_MDNS`: disable mDNS
+- `-D ESPCONNECT_DEBUG`: enable debug logs on ESP8266
+- `-D ESPCONNECT_NO_CAPTIVE_PORTAL`: disable Captive Portal and ESPAsyncWebServer dependency
+- `-D ESPCONNECT_NO_STD_STRING`: use Arduino `String` instead of `std::string`
+- `-D ESPCONNECT_NO_LOGGING`: disable logging
